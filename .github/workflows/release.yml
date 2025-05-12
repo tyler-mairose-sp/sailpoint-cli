@@ -8,9 +8,11 @@ on:
   push:
     tags:
       - "*"
+permissions:
+  contents: write
 
 env:
-  REF: ${{ github.event.inputs.tag || github.event.inputs.version }}
+  REF: ${{ github.ref_name || github.event.inputs.version }}
 
 jobs:
   goreleaser:
@@ -53,24 +55,22 @@ jobs:
       #   env:
       #     KEY_CONTENTS: ${{ secrets.SPOSS_SIGNING_KEY }}
 
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           version: "2.8.2"
-          args: release
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{secrets.PUBLISHER_TOKEN}}
-          GORELEASER_CURRENT_TAG: ${{steps.tagName.outputs.tag-name}}
 
   msi:
     needs: goreleaser
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Download sail.exe
         id: download_exe
         shell: bash
