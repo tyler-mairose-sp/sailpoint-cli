@@ -17,6 +17,8 @@ builds:
     binary: bin/sail
     goos: [linux, darwin, windows]
     goarch: ['386', 'arm', amd64, arm64]
+    env:
+      - CGO_ENABLED=0
     goarm: ['6']
     ldflags:
       - -s -w -X main.version={{ .Version }}
@@ -38,3 +40,13 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end -}}
+
+nfpms:
+  - license: MIT
+    maintainer: SailPoint
+    homepage: https://github.com/sailpoint-oss/sailpoint-cli
+    bindir: /usr
+    description: The SailPoint Command Line Interface.
+    formats:
+      - deb
+      - rpm
