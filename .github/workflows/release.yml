@@ -14,7 +14,7 @@ env:
 
 jobs:
   goreleaser:
-    runs-on: macos-latest-large
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,21 +40,21 @@ jobs:
       - name: Install osslsigncode
         run: brew install osslsigncode
 
-      - name: Obtain signing cert
-        run: |
-          cert="$(mktemp -t cert.XXX)"
-          echo $CERT_CONTENTS | base64 --decode > "$cert"
-          echo "CERT_FILE=$cert" >> $GITHUB_ENV
-        env:
-          CERT_CONTENTS: ${{ secrets.SPOSS_SIGNING_CERTS }}
+      # - name: Obtain signing cert
+      #   run: |
+      #     cert="$(mktemp -t cert.XXX)"
+      #     echo $CERT_CONTENTS | base64 --decode > "$cert"
+      #     echo "CERT_FILE=$cert" >> $GITHUB_ENV
+      #   env:
+      #     CERT_CONTENTS: ${{ secrets.SPOSS_SIGNING_CERTS }}
 
-      - name: Obtain signing key
-        run: |
-          key="$(mktemp -t cert.XXX)"
-          echo $KEY_CONTENTS | base64 --decode > "$key"
-          echo "KEY_FILE=$key" >> $GITHUB_ENV
-        env:
-          KEY_CONTENTS: ${{ secrets.SPOSS_SIGNING_KEY }}
+      # - name: Obtain signing key
+      #   run: |
+      #     key="$(mktemp -t cert.XXX)"
+      #     echo $KEY_CONTENTS | base64 --decode > "$key"
+      #     echo "KEY_FILE=$key" >> $GITHUB_ENV
+      #   env:
+      #     KEY_CONTENTS: ${{ secrets.SPOSS_SIGNING_KEY }}
 
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
