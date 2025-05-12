@@ -37,9 +37,6 @@ jobs:
         run: |
           echo "tag-name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Install osslsigncode
-        run: brew install osslsigncode
-
       # - name: Obtain signing cert
       #   run: |
       #     cert="$(mktemp -t cert.XXX)"
