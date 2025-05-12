@@ -14,7 +14,7 @@ before:
 builds:
   - id: default
     main: ./main.go
-    binary: bin/sail
+    binary: sail
     goos: [linux, darwin, windows]
     goarch: ['386', 'arm', amd64, arm64]
     env:
