@@ -12,76 +12,20 @@ before:
     - go mod tidy
 
 builds:
-  - <<: &build_defaults
-      binary: bin/sail
-      main: ./
-    id: macos
-    goos: [darwin]
+  - id: default
+    main: ./main.go
+    binary: bin/sail
+    goos: [linux, darwin, windows]
     goarch: [amd64, arm64]
-
-  - <<: *build_defaults
-    id: linux
-    goos: [linux]
-    goarch: [386, arm, amd64, arm64]
-    env:
-      - CGO_ENABLED=0
-
-  - <<: *build_defaults
-    id: windows
-    goos: [windows]
-    goarch: [386, amd64, arm64]
-    hooks:
-      post:
-        - cmd: ./assets/sign-windows-executable.sh '{{ .Path }}'
-          output: true
+    goarm: ['6']
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
 
 archives:
-  - id: nix
-    ids: [macos, linux]
-    <<: &archive_defaults
-      name_template: >-
-        {{- .ProjectName }}_
-        {{- title .Os }}_
-        {{- if eq .Arch "amd64" }}x86_64
-        {{- else if eq .Arch "386" }}i386
-        {{- else }}{{ .Arch }}{{ end }}
-        {{- if .Arm }}v{{ .Arm }}{{ end -}}
-    wrap_in_directory: true
+  - id: default
+    ids: [default]
     formats: tar.gz
-    files:
-      - LICENSE
-  - id: windows
-    ids: [windows]
-    <<: *archive_defaults
-    wrap_in_directory: false
-    formats: zip
-    files:
-      - LICENSE
-
-# dockers:
-#   - image_templates:
-#       - sailpoint/sailpoint-cli:{{.Tag}}
-#     use: buildx
-#     dockerfile: Dockerfile
-#     build_flag_templates:
-#       - "--platform=linux/amd64"
-
-brews:
-  - name: sailpoint-cli
-    homepage: "https://github.com/sailpoint-oss/sailpoint-cli"
-    repository:
-      name: homebrew-tap
-      owner: sailpoint-oss
-    commit_author:
-      name: developer-relations-sp
-      email: devrel-service@sailpoint.com
-
-nfpms:
-  - license: MIT
-    maintainer: SailPoint
-    homepage: https://github.com/sailpoint-oss/sailpoint-cli
-    bindir: /usr
-    description: The SailPoint Command Line Interface.
-    formats:
-      - deb
-      - rpm
+    format_overrides:
+      - formats: [ 'zip' ]
+        goos: 'windows'
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
