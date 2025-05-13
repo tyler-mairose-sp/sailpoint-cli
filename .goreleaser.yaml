@@ -20,11 +20,11 @@ builds:
   #   ldflags:
   #     - -s -w -X main.version={{ .Version }}
 
-  # - id: linux
-  #   goos: [linux]
-  #   goarch: ['386', arm, amd64, arm64]
-  #   env:
-  #     - CGO_ENABLED=0
+  - id: linux
+    goos: [linux]
+    goarch: ['386', arm, amd64, arm64]
+    env:
+      - CGO_ENABLED=0
 
   - id: macos
     binary: bin/sail
@@ -34,7 +34,7 @@ builds:
 
 archives:
   - id: nix
-    ids: [macos]
+    ids: [macos, linux]
     name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     wrap_in_directory: true
     formats: tar.gz
