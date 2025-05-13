@@ -34,13 +34,13 @@ builds:
 
 archives:
   - id: nix
-    builds: [macos, linux]
+    ids: [macos, linux]
     name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     wrap_in_directory: true
-    format: tar.gz
+    formats: tar.gz
     files:
       - LICENSE
-      
+
   - id: windows
     ids: [windows]
     format_overrides:
