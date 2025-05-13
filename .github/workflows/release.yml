@@ -30,13 +30,13 @@ jobs:
         uses: goreleaser/goreleaser-action@v6
         with:
           version: "2.8.2"
-          args: check
+          args: healthcheck
           
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           version: "2.8.2"
-          args: release --clean --verbose --debug
+          args: release --clean --verbose
         env:
           GITHUB_TOKEN: ${{secrets.PUBLISHER_TOKEN}}
 
