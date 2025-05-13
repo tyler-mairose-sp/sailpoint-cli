@@ -15,7 +15,7 @@ builds:
   - id: default
     main: ./main.go
     binary: bin/sail
-    goos: [linux, darwin, windows]
+    goos: [linux, windows]
     goarch: ['386', 'arm', amd64, arm64]
     env:
       - CGO_ENABLED=0
@@ -34,3 +34,13 @@ archives:
     files:
       - LICENSE
     name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+
+nfpms:
+  - license: MIT
+    maintainer: SailPoint
+    homepage: https://github.com/sailpoint-oss/sailpoint-cli
+    bindir: /usr
+    description: The SailPoint Command Line Interface.
+    formats:
+      - deb
+      - rpm
