@@ -15,7 +15,7 @@ builds:
   - id: default
     main: ./main.go
     binary: bin/sail
-    goos: [linux, darwin, windows]
+    goos: [windows]
     goarch: ['386', arm, amd64, arm64]
     env:
       - CGO_ENABLED=0
@@ -27,7 +27,6 @@ builds:
         {{- if eq .Os "windows" }}
           {{- if eq .Arch "amd64" }}CC=x86_64-w64-mingw32-gcc{{- end }}
         {{- end }}
-    goarm: ['6']
     ldflags:
       - -s -w -X main.version={{ .Version }}
 
