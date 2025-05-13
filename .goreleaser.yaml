@@ -20,11 +20,11 @@ builds:
     ldflags:
       - -s -w -X main.version={{ .Version }}
 
-  - id: linux
-    goos: [linux]
-    goarch: ['386', arm, amd64, arm64]
-    env:
-      - CGO_ENABLED=0
+  # - id: linux
+  #   goos: [linux]
+  #   goarch: ['386', arm, amd64, arm64]
+  #   env:
+  #     - CGO_ENABLED=0
 
   # - id: macos
   #   binary: bin/sail
@@ -33,13 +33,13 @@ builds:
   #   goarch: [amd64, arm64]
 
 archives:
-  - id: nix
-    ids: [linux]
-    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
-    wrap_in_directory: true
-    formats: tar.gz
-    files:
-      - LICENSE
+  # - id: nix
+  #   ids: [linux]
+  #   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  #   wrap_in_directory: true
+  #   formats: tar.gz
+  #   files:
+  #     - LICENSE
 
   - id: windows
     ids: [windows]
@@ -49,12 +49,12 @@ archives:
     wrap_in_directory: true
     files:
       - LICENSE
-nfpms:
-  - license: MIT
-    maintainer: SailPoint
-    homepage: https://github.com/sailpoint-oss/sailpoint-cli
-    bindir: /usr
-    description: The SailPoint Command Line Interface.
-    formats:
-      - deb
-      - rpm
+# nfpms:
+#   - license: MIT
+#     maintainer: SailPoint
+#     homepage: https://github.com/sailpoint-oss/sailpoint-cli
+#     bindir: /usr
+#     description: The SailPoint Command Line Interface.
+#     formats:
+#       - deb
+#       - rpm
