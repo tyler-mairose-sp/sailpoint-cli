@@ -20,7 +20,27 @@ builds:
     ldflags:
       - -s -w -X main.version={{ .Version }}
 
+  - id: linux
+    goos: [linux]
+    goarch: ['386', arm, amd64, arm64]
+    env:
+      - CGO_ENABLED=0
+
+  - id: macos
+    binary: bin/sail
+    main: ./
+    goos: [darwin]
+    goarch: [amd64, arm64]
+
 archives:
+  - id: nix
+    builds: [macos, linux]
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    wrap_in_directory: true
+    format: tar.gz
+    files:
+      - LICENSE
+      
   - id: windows
     ids: [windows]
     format_overrides:
@@ -29,8 +49,6 @@ archives:
     wrap_in_directory: true
     files:
       - LICENSE
-    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ replace .Os "darwin" "macos" }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
-
 nfpms:
   - license: MIT
     maintainer: SailPoint
