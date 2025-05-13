@@ -15,7 +15,7 @@ builds:
   - id: default
     main: ./main.go
     binary: bin/sail
-    goos: [linux, windows]
+    goos: [linux, darwin]
     goarch: ['386', 'arm', amd64, arm64]
     env:
       - CGO_ENABLED=0
