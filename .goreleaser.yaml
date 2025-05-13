@@ -47,12 +47,13 @@ archives:
     wrap_in_directory: true
     files:
       - LICENSE
-# nfpms:
-#   - license: MIT
-#     maintainer: SailPoint
-#     homepage: https://github.com/sailpoint-oss/sailpoint-cli
-#     bindir: /usr
-#     description: The SailPoint Command Line Interface.
-#     formats:
-#       - deb
-#       - rpm
+
+nfpms:
+  - license: MIT
+    maintainer: SailPoint
+    homepage: https://github.com/sailpoint-oss/sailpoint-cli
+    bindir: /usr
+    description: The SailPoint Command Line Interface.
+    formats:
+      - deb
+      - rpm
